@@ -26,8 +26,12 @@ class NNInterface(ABC):
 
 class NNException(Exception):
     pass
+
+
 class NNFailTimeoutException(NNException):
     pass
+
+
 class NNReturnedBadJSONException(NNException):
     pass
 
@@ -94,7 +98,7 @@ class RabbitMQServer:
     def _on_request(ch, method: pika.spec.Basic.Deliver, props: pika.BasicProperties, body):
         data = json.loads(body)
         print(data)
-        result = {"result":f"Hi there! Sent data has length as str: {len(body)}"}
+        result = {"result": f"Hi there! Sent data has length as str: {len(body)}"}
         ch.basic_publish(exchange='',
                          routing_key=props.reply_to,
                          properties=pika.BasicProperties(correlation_id=props.correlation_id),

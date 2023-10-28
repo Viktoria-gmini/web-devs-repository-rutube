@@ -1,8 +1,7 @@
 import json
-from typing import Annotated
 
 from fastapi import FastAPI
-from fastapi import Request, Form, Response
+from fastapi import Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette import status
@@ -35,8 +34,9 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
     result = process_input(article, text)
     return templates.TemplateResponse("index.html", {"request": request, "result": result})
 
+
 @app.post('/api/process_data')
-def process_data(data = Form(...)):
+def process_data(data=Form(...)):
     data_json = dict()
     try:
         data_json = dict(json.loads(data))
