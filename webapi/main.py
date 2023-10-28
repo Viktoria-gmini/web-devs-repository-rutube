@@ -7,12 +7,13 @@ from fastapi.templating import Jinja2Templates
 from starlette import status
 from starlette.responses import JSONResponse
 
-from rabbit_wrapper import NNInterface, NNException
+from nn_interface import NNException
+from rabbit_client import make_rabbitmq
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-nn_interface = NNInterface.make_rabbitmq()
+nn_interface = make_rabbitmq()
 
 
 # Function to process the input data and return an array of strings
