@@ -6,6 +6,6 @@ COPY ./webapi/requirements.txt ./
 
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
-COPY ./webapi ./
+COPY ./webapi ./webapi
 
-CMD ["python", "./rabbit_server.py"]
+CMD ["python", "-m", "webapi.rabbit_server"]
