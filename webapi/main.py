@@ -29,13 +29,12 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
     # Process the input data
     s = article + " " + text
     words = text_to_array(s)
-    response = process_data()
+    response = process_data(s)
     data = response.body
     result = json.loads(data)
-    entities = result["tokens"]
-    entities2 = []
+    print(result)
+    entities = result["words"]
     classes = result["tags"]
-    classes2 = []
     pos = 0
     res_text, res_tags = [], []
     while pos < len(entities):
@@ -60,8 +59,12 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
             end = pos
         res_substr.append((start, end, res_tags[i][2:], res_text[i]))
         #[[3.5."персона",""матвей"],[7.10]
+    print(res_text)
+
+    length=len(res_text)
+    print(res_substr)
     return templates.TemplateResponse("index.html", {"request": request, "tags": res_tags,"r":res_substr,
-                                      "string":s})
+                                      "length":length, "res_text":res_text})
 
 
 @app.post('/api/process_data')
