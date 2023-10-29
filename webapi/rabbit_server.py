@@ -3,8 +3,8 @@ import os
 
 import pika
 
-from rabbit_utils import Connector
-from thread_utils import ThreadController
+from webapi.rabbit_utils import Connector
+from webapi.thread_utils import ThreadController
 
 NN_INPUT_QUEUE_NAME = os.environ.get('NN_INPUT_QUEUE_NAME', 'nn-input')
 

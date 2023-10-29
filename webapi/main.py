@@ -7,8 +7,8 @@ from fastapi.templating import Jinja2Templates
 from starlette import status
 from starlette.responses import JSONResponse
 
-from nn_interface import NNException
-from rabbit_client import make_rabbitmq
+from webapi.nn_interface import NNException
+from webapi.rabbit_client import make_rabbitmq
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -40,7 +40,7 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
 def process_data(data=Form(...)):
     data_json = dict()
     try:
-        data_json = dict(json.loads(data))
+        data_json['text'] = str(data)
     except Exception as _:
         return JSONResponse({"error": "Invalid JSON"}, status_code=status.HTTP_400_BAD_REQUEST)
     try:

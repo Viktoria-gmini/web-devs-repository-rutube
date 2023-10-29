@@ -6,7 +6,7 @@ import pika
 from pika import BlockingConnection
 from pika.connection import Connection
 
-from logger import logger
+from webapi.logger_utils import logger
 
 logger = logger.getChild("rabbit_utils")
 
