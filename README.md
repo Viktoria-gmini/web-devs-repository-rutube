@@ -1,7 +1,7 @@
 # Запуск
 ### Docker
-1. Скачать модель:  
-2. Положить в папку nnmodel проекта. Папка ДОЛЖНА называться model (переименовать)
+1. Скачать модель:  https://drive.google.com/drive/folders/1a9n1JdfK9PpkdQtkom42tv0Tl8LwS_yB
+2. Положить в папку nnmodel проекта. Распакованная папка ДОЛЖНА называться model (переименовать)
 ```
 project_folder\nnmodel
 │
