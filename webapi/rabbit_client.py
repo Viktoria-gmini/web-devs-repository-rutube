@@ -8,12 +8,12 @@ import pika
 from pika.frame import Method
 
 from webapi.nn_interface import NNInterface, NNFailTimeoutException, NNReturnedBadJSONException
-from webapi.rabbit_server import RabbitMQEmptyServer
+from webapi.rabbit_empty_server import RabbitMQEmptyServer
 from webapi.thread_utils import ThreadController
 from webapi.rabbit_utils import Connector
 
 NN_INPUT_QUEUE_NAME = os.environ.get('NN_INPUT_QUEUE_NAME', 'nn-input')
-MAX_NN_WAITING_TIME_SECONDS = os.environ.get('MAX_NN_WAITING_TIME_SECONDS', 3)
+MAX_NN_WAITING_TIME_SECONDS = os.environ.get('MAX_NN_WAITING_TIME_SECONDS', 30)
 BASE_ENCODING = os.environ.get("BASE_ENCODING", "utf-8")
 
 connector = Connector.get_connector()

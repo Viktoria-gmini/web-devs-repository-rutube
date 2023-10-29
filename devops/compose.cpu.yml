@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  webapi:
+    build:
+      context: ..
+      dockerfile: devops/Dockerfile.webapi
+    container_name: WEBAPI
+    hostname: webapi
+    environment:
+      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "${WEBAPI_PORT}:8000"
+    depends_on:
+      - rabbitmq
+
+#  emptynn:
+#    build:
+#      context: ..
+#      dockerfile: devops/Dockerfile.emptynn
+#    container_name: EMPTYNN
+#    hostname: emptynn
+#    environment:
+#      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
+#    depends_on:
+#      - rabbitmq
+  nnmodel:
+    build:
+      context: ..
+      dockerfile: devops/Dockerfile.nnmodel.cpu
+    container_name: NNMODEL-CPU
+    hostname: nnmodel
+    environment:
+      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - rabbitmq

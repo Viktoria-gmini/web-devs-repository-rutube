@@ -4,7 +4,8 @@ import sys
 
 def get_logger():
     logger_ = logging.getLogger('root')
-
+    if len(logger_.handlers):
+        return logger_
     logger_.setLevel(logging.INFO)
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(logging.INFO)

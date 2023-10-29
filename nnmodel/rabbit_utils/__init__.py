@@ -2,7 +2,8 @@ import os
 import time
 from typing import Any
 
-import logger
+from nnmodel.logger_utils import logger
+
 import pika
 from pika import BlockingConnection
 from pika.connection import Connection

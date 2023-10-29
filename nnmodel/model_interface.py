@@ -1,4 +1,3 @@
-from logger_utils import logger
 from transformers import AutoTokenizer
 from razdel import tokenize
 import torch
@@ -67,6 +66,7 @@ class Model():
         label = [self.label_list[idx] for idx in label]
         return words, label
 
+from nnmodel.logger_utils import logger
 
 class WordTag:
     def __init__(self, word: str, label: str):
@@ -87,6 +87,9 @@ class NNModel:
         words, tags = self._model.predict(text)
         return [WordTag(word, tag) for word, tag in zip(words, tags)]
 
+    @staticmethod
+    def get_model():
+        return NNModel('./nnmodel/model')
 
 
 def main():

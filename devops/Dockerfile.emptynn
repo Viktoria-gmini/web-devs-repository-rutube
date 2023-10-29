@@ -8,4 +8,4 @@ RUN python -m pip install --no-cache-dir -r requirements.txt
 
 COPY ./webapi ./webapi
 
-CMD ["python", "-m", "webapi.rabbit_server"]
+CMD ["python", "-m", "webapi.rabbit_empty_server"]
