@@ -27,8 +27,8 @@ def index(request: Request):
 @app.post('/', response_class=HTMLResponse)
 def process_form(request: Request, article: str = Form(...), text: str = Form(...)):
     # Process the input data
-    article_combined = article + " " + text
-    words = text_to_array(article_combined)
+    s = article + " " + text
+    words = text_to_array(s)
     response = process_data()
     data = response.body
     result = json.loads(data)
@@ -46,34 +46,22 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
             res_text[-1].append(entities[pos])
             pos += 1
     poses = []
-    i = 0
-    while (i != len(str)):
-        for j in range(len(res_text)):
-            if (res_tags[j] == '0'):
-                for k in range(len(res_text[j])):
-                    poses.append(0)
-            elif (res_tags[j].startswith('B')):
-                for k in range(len(res_text[j])):
-                    poses.append(1)
-        #     indexes.append(count+1)
-        # elif (item.startswith('I')):
-        #     indexes.append(count)
-        # else:
-        #     entities
-        #     indexes.append(-1)
-    state = 0
-    # for i in range(len(entities)):
-    #     if indexes[i]-state==1:
-    #         entities2.append(entities[i])
-    #         classes2.insert(state,classes2[state].replace("B-",""))
-    #         state+=1
-    #     elif indexes[i]==state:
-    #         new_string = entities2[state]+" "+entities[i]
-    #         entities2.insert(state,new_string)
-    #         entities2.insert(state,new_string)
-
-    return templates.TemplateResponse("index.html", {"request": request, "words": words, "tokens": entities2,
-                                                     "tags": classes2})
+    res_substr = []
+    pos = 0
+    for i in range(len(res_text)):
+        if res_tags[i] == "O":
+            continue
+        start = s.find(res_text[i][0], pos)
+        end = start + len(res_text[i][0])
+        fd2 = pos
+        if len(res_text) > 1:
+            end = s.find(res_text[i][-1], pos)
+            pos = end + len(res_text[i][-1])
+            end = pos
+        res_substr.append((start, end, res_tags[i][2:], res_text[i]))
+        #[[3.5."персона",""матвей"],[7.10]
+    return templates.TemplateResponse("index.html", {"request": request, "tags": res_tags,"r":res_substr,
+                                      "string":s})
 
 
 @app.post('/api/process_data')

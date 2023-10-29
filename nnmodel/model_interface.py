@@ -1,10 +1,10 @@
-from transformers import AutoTokenizer
-from razdel import tokenize
 import torch
+from razdel import tokenize
 from transformers import AutoModelForTokenClassification
+from transformers import AutoTokenizer
 
 
-class Model():
+class Model:
     def __init__(self, path: str):
         self.tokenizer = AutoTokenizer.from_pretrained(path, device='cpu')
         self.label_list = ['O',
@@ -64,9 +64,15 @@ class Model():
                 word.append((token_text[pos], self.tokenizer.convert_ids_to_tokens(t)))
             pos += dl
         label = [self.label_list[idx] for idx in label]
+
+        for i in range(len(label)):
+            if label[i][0] == "I" and (i == 0 or label[i - 1] == 'O' or label[i - 1][1:] != label[i][1:]):
+                label[i] = "B" + label[i][1:]
         return words, label
 
+
 from nnmodel.logger_utils import logger
+
 
 class WordTag:
     def __init__(self, word: str, label: str):

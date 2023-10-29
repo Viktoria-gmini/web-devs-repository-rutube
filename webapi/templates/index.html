@@ -101,17 +101,16 @@
 
     <h1>Результат</h1>
     <div>
-        {% if words %}
         <h2>Выявленные классы: </h2>
-            {% for item in words %}
-            {% if item in my_dict%}
-            {{ item }}
-            <mark id ="mark">{{ my_dict.get(item) }}</mark>
-            {% else %}
-            {{ item }}
+            {%index=0%}
+            {% for i in range(len(string)) %}
+            {% if ((r[index][0]<= i)&&((r[index][1]>= i)) %}
+            <mark id ="mark">{{ string[i] }}</mark>
+            {% elif (r[index][1]< i %}
+            {{ string[i] }}
             {% endif %}
+            {%index+=1%}
             {% endfor %}
-        {% endif %}
     </div>
      <h1>Рекомендации</h1>
 

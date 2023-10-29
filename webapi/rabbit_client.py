@@ -18,7 +18,6 @@ BASE_ENCODING = os.environ.get("BASE_ENCODING", "utf-8")
 
 connector = Connector.get_connector()
 
-
 class RabbitMQClient(NNInterface):
     def post(self, data: dict) -> dict:
         self._send_data(data)
