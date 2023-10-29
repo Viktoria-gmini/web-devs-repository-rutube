@@ -21,16 +21,26 @@ services:
     environment:
       - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
     ports:
-      - "${WEBAPI_PORT}:8000"
+      - "${WEBAPI_PORT}:8002"
     depends_on:
       - rabbitmq
 
-  emptynn:
+#  emptynn:
+#    build:
+#      context: ..
+#      dockerfile: devops/Dockerfile.emptynn
+#    container_name: EMPTYNN
+#    hostname: emptynn
+#    environment:
+#      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
+#    depends_on:
+#      - rabbitmq
+  nnmodel:
     build:
       context: ..
-      dockerfile: devops/Dockerfile.emptynn
-    container_name: EMPTYNN
-    hostname: emptynn
+      dockerfile: devops/Dockerfile.nnmodel.gpu
+    container_name: NNMODEL-GPU
+    hostname: nnmodel
     environment:
       - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
     depends_on:

@@ -4,3 +4,4 @@ python-multipart
 uvicorn
 pika
 logger
+peewee

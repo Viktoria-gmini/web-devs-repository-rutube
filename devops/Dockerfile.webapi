@@ -6,6 +6,6 @@ COPY ./webapi/requirements.txt ./
 
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
-COPY ./webapi ./
+COPY ./webapi ./webapi
 
-CMD ["python", "./main.py"]
+CMD ["python", "-m", "webapi.main"]

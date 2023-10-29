@@ -1,0 +1,15 @@
+FROM python:3.10
+
+WORKDIR /app
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+python -m pip install torch
+
+COPY ./nnmodel/requirements.txt ./
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+python -m pip install -r requirements.txt
+
+COPY ./nnmodel ./nnmodel
+
+CMD ["python", "-m", "nnmodel.main"]

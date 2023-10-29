@@ -27,9 +27,9 @@ def index(request: Request):
 @app.post('/', response_class=HTMLResponse)
 def process_form(request: Request, article: str = Form(...), text: str = Form(...)):
     # Process the input data
-    str = article + " " + text
-    words = text_to_array(article + " " + text)
-    response = process_data(article,text)
+    article_combined = article + " " + text
+    words = text_to_array(article_combined)
+    response = process_data()
     data = response.body
     result = json.loads(data)
     entities = result["tokens"]
@@ -46,13 +46,13 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
             res_text[-1].append(entities[pos])
             pos += 1
     poses = []
-    i=0
-    while(i!=len(str)):
+    i = 0
+    while (i != len(str)):
         for j in range(len(res_text)):
-            if (res_tags[j]=='0'):
+            if (res_tags[j] == '0'):
                 for k in range(len(res_text[j])):
                     poses.append(0)
-            elif(res_tags[j].startswith('B')):
+            elif (res_tags[j].startswith('B')):
                 for k in range(len(res_text[j])):
                     poses.append(1)
         #     indexes.append(count+1)
@@ -62,27 +62,25 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
         #     entities
         #     indexes.append(-1)
     state = 0
-    for i in range(len(entities)):
-        if indexes[i]-state==1:
-            entities2.append(entities[i])
-            classes2.insert(state,classes2[state].replace("B-",""))
-            state+=1
-        elif indexes[i]==state:
-            new_string = entities2[state]+" "+entities[i]
-            entities2.insert(state,new_string)
-            entities2.insert(state,new_string)
-
+    # for i in range(len(entities)):
+    #     if indexes[i]-state==1:
+    #         entities2.append(entities[i])
+    #         classes2.insert(state,classes2[state].replace("B-",""))
+    #         state+=1
+    #     elif indexes[i]==state:
+    #         new_string = entities2[state]+" "+entities[i]
+    #         entities2.insert(state,new_string)
+    #         entities2.insert(state,new_string)
 
     return templates.TemplateResponse("index.html", {"request": request, "words": words, "tokens": entities2,
-                                                     "tags":classes2})
+                                                     "tags": classes2})
 
 
 @app.post('/api/process_data')
-def process_data(article, text):
-    data = {article: text}
-    data_json = json.dumps(data)
+def process_data(data: str = Form(...)):
+    data_json = dict()
     try:
-        data_json = dict(json.loads(data_json))
+        data_json['text'] = str(data_json)
     except Exception as _:
         return JSONResponse(content={"error": "Invalid JSON"}, status_code=status.HTTP_400_BAD_REQUEST)
     try:
