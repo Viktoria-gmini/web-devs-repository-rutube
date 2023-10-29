@@ -30,12 +30,21 @@
             margin-bottom: 5px;
         }
 
-        input[type="text"] {
-            width: 100%;
+        input[id="text"] {
+            width: 50%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
+
+        }
+        input[id="article"] {
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+
         }
 
         input[type="submit"] {
@@ -45,6 +54,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+
         }
 
         input[type="submit"]:hover {
@@ -68,6 +78,11 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
+        mark {
+        background: #ffec82;
+        padding: 0 3px;
+        border: 1px dashed #333;
+        }
     </style>
 
 </head>
@@ -81,19 +96,24 @@
         <h3 for="text">Описание:</h3>
         <input type="text" id="text" name="text" required><br><br>
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Отправить">
     </form>
 
     <h1>Результат</h1>
     <div>
-        {% if result %}
-        <h2>Выявленные сущности:</h2>
-        <ul>
-            {% for item in result %}
-            <li>{{ item }}</li>
+        {% if words %}
+        <h2>Выявленные классы: </h2>
+            {% for item in words %}
+            {% if item in my_dict%}
+            {{ item }}
+            <mark id ="mark">{{ my_dict.get(item) }}</mark>
+            {% else %}
+            {{ item }}
+            {% endif %}
             {% endfor %}
-        </ul>
         {% endif %}
     </div>
+     <h1>Рекомендации</h1>
+
 </body>
 </html>
