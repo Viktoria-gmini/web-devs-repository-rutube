@@ -80,7 +80,7 @@ def process_form(request: Request, article: str = Form(...), text: str = Form(..
 def process_data(data: str = Form(...)):
     data_json = dict()
     try:
-        data_json['text'] = str(data_json)
+        data_json['text'] = str(data)
     except Exception as _:
         return JSONResponse(content={"error": "Invalid JSON"}, status_code=status.HTTP_400_BAD_REQUEST)
     try:
