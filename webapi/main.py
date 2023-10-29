@@ -8,7 +8,7 @@ from starlette import status
 from starlette.responses import JSONResponse
 from webapi.parsing_functions import text_to_array, get_entity_group
 from webapi.nn_interface import NNException
-from webapi.rabbit_client import make_rabbitmq
+from webapi.rabbit_client import make_rabbitmq, RabbitMQClientNetworkException
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -77,6 +77,8 @@ def process_data(data: str = Form(...)):
     try:
         result = nn_interface.post(data_json)
     except NNException as e:
+        return JSONResponse(content={"error": repr(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except RabbitMQClientNetworkException as e:
         return JSONResponse(content={"error": repr(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return JSONResponse(result)
